@@ -1,0 +1,10 @@
+﻿h1 { 
+    font-family: Nyala; 
+    color: #01b9bf;
+    border-bottom: 5px double #424868;
+}
+h2 { 
+    font-style: italic; 
+    color: chartreuse;
+    border-bottom: 5px dotted #808080;
+}

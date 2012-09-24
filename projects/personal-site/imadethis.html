@@ -1,0 +1,406 @@
+<html>
+<head>
+<style type="text/css">
+body{
+	background-color:#222;
+}
+
+table {
+	border:4px solid #a73; font-size:10px; position:relative;
+}
+
+td{
+	border:0px solid #000; width:90px; height:90px; margin:0px; padding:0px;
+}
+
+.Grass{
+	background-image:url('images/imadethesetoo/Grass.jpg');
+	/*background-size:contain;*/
+}
+
+.Character{
+	position:absolute;
+}
+
+.Tree1{
+	background-image:url('images/imadethesetoo/Tree1.gif');
+	width:88px; height:88px; background-size:contain;
+}
+
+.Tree2{
+	background-image:url('images/imadethesetoo/Tree2.png');
+	width:88px; height:88px; background-size:contain;
+}
+
+.Path{
+	background-image:url('images/imadethesetoo/Path.jpg');
+	/*background-size:contain;*/
+}
+
+</style>
+<script src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js'>
+</script>
+<script type="text/javascript">
+var BlockTypes={
+	'Grass':{'ID':'Grass','Walkable':true},
+	'Tree1':{'ID':'Tree1','Walkable':false},
+	'Tree2':{'ID':'Tree2','Walkable':false},
+	'Path':{'ID':'Path','Walkable':true}
+	};
+var GameBoard=[];
+var ViewBoard=[];
+var Character = null;
+var Wkey = 119;
+var Skey = 115;
+var Akey = 97;
+var Dkey = 100;
+var CharPos = {CharRow:4, CharCol:4};
+var ViewPos = {ViewRow:0, ViewCol:0};
+var Table = null;
+var TotalRows = 100;
+var TotalColumns = 100;
+var VRows = 9;
+var VColumns = 9;
+
+function MapBoard(){
+	var R = 1;
+	var C = 1;
+	Table = document.getElementById('honey');
+	for (R=1;R<=TotalRows;R+=1){
+		var RowArray=[];
+		
+		for (C=1;C<=TotalColumns;C+=1){
+			RowArray[C-1]={'Type':BlockTypes['Grass']};
+		}
+		GameBoard[R-1]=RowArray;
+	}
+	
+	/*Forest Generator*/
+	var RandNum=Math.floor(Math.sqrt(Math.random())*(TotalRows*TotalColumns)*.0075)
+	var ForestSize=7
+	for (var count=0;count<RandNum;count+=1){
+		var TreeType=Math.round(Math.random())+1 //Determines the forest seed's tree type by returning 1 or 2
+		var RandRow=Math.floor(Math.random()*TotalRows);
+		var RandCol=Math.floor(Math.random()*TotalColumns);
+		RecursiveTreeGeneration(RandRow,RandCol,ForestSize,1,TreeType);
+	}
+	//Trailblazer
+	var EndRow;
+	var EndCol;
+	while (true){
+		EndRow=Math.floor(Math.random()*TotalRows);
+		EndCol=Math.floor(Math.random()*TotalColumns);
+		if (Math.sqrt(Math.pow((CharPos.CharRow-EndRow),2)+Math.pow((CharPos.CharCol-EndCol),2))>TotalRows/3){ //TotalRow/3 determines minimun path length
+			break;
+		}
+	}
+	var CurrentRow=CharPos.CharRow;
+	var CurrentCol=CharPos.CharCol;
+	var Min=1
+	var Max=3 //min & max length of each layed section of path.
+	var PathMidPoint={'Row':Math.round(Math.abs(EndRow-CurrentRow)/2)+CurrentRow,'Column':Math.round(Math.abs(EndCol-CurrentCol)/2)+CurrentCol}; //Finds the midpoint of the Path
+	var RandomPoint={'Row':Math.round(Math.random() * (TotalRows - 1)),'Column':Math.round(Math.random() * (TotalColumns - 1))}; //A random point on the gameboard
+	var count;
+	GameBoard[CurrentRow][CurrentCol]['Type']=BlockTypes['Path'];
+	if (Math.abs(EndRow-CurrentRow)>Math.abs(EndCol-CurrentCol)){ //Then the path is traveling predominantly vertically
+		var DistractionPoint={'Row':PathMidPoint.Row,'Column':RandomPoint.Column};
+	}
+	else if (Math.abs(EndRow-CurrentRow)<Math.abs(EndCol-CurrentCol)){ //Then the path is traveling predominantly Horizontally
+		var DistractionPoint={'Row':RandomPoint.Row,'Column':PathMidPoint.Column};
+	}
+	while ((CurrentRow!=EndRow) || (CurrentCol!=EndCol)){
+		if ((Math.abs(EndRow-CurrentRow)>=Max) || (Math.abs(EndCol-CurrentCol)>=Max)){ //I think this should make it impossible for the path to pass the endpoint at any given Max value.
+			var RandVHC=Math.round(Math.random())+1; //Random Vertical or Horizontal Movement Checker: This is used to randomize which axis of movement is checked first.
+			if (RandVHC==1){
+				if (Math.floor(Math.random()*10)>2){ //heads towards end
+					if (CurrentRow>EndRow){
+						var NumTiles=Math.round(Math.random() * (Max - Min) + Min);
+						count=0;
+						while (count<NumTiles){
+							CurrentRow-=1;
+							GameBoard[CurrentRow][CurrentCol]['Type']=BlockTypes['Path'];
+							count+=1;
+						}
+					}
+					else if (CurrentRow<EndRow){
+						var NumTiles=Math.round(Math.random() * (Max - Min) + Min);
+						count=0;
+						while (count<NumTiles){
+							CurrentRow+=1;
+							GameBoard[CurrentRow][CurrentCol]['Type']=BlockTypes['Path'];
+							count+=1;
+						}
+					}
+				}
+				else if (Math.floor(Math.random()*10)<=2){ //heads towards distraction point
+					if (CurrentRow>DistractionPoint.Row){
+						var NumTiles=Math.round(Math.random() * (Max - Min) + Min);
+						count=0;
+						while (count<NumTiles){
+							CurrentRow-=1;
+							GameBoard[CurrentRow][CurrentCol]['Type']=BlockTypes['Path'];
+							count+=1;
+						}
+					}
+					else if (CurrentRow<DistractionPoint.Row){
+						var Numtiles=Math.round(Math.random() * (Max - Min) + Min);
+						count=0;
+						while (count<Numtiles){
+							CurrentRow+=1;
+							GameBoard[CurrentRow][CurrentCol]['Type']=BlockTypes['Path'];
+							count+=1;
+						}
+					}
+				}
+			}
+			if(RandVHC==2){
+				if (Math.floor(Math.random()*10)>2){ //heads towards end point
+					if (CurrentCol>EndCol){
+						var NumTiles=Math.round(Math.random() * (Max - Min) + Min);
+						count=0;
+						while (count<NumTiles){
+							CurrentCol-=1;
+							GameBoard[CurrentRow][CurrentCol]['Type']=BlockTypes['Path'];
+							count+=1;
+						}
+					}
+					else if (CurrentCol<EndCol){
+						var NumTiles=Math.round(Math.random() * (Max - Min) + Min);
+						count=0;
+						while (count<NumTiles){
+							CurrentCol+=1;
+							GameBoard[CurrentRow][CurrentCol]['Type']=BlockTypes['Path'];
+							count+=1;
+						}
+					}
+				}
+				else if (Math.floor(Math.random()*10)<=2){ //heads towards distraction point
+					if (CurrentCol>DistractionPoint.Column){
+						var NumTiles=Math.round(Math.random() * (Max - Min) + Min);
+						count=0;
+						while (count<NumTiles){
+							CurrentCol-=1;
+							GameBoard[CurrentRow][CurrentCol]['Type']=BlockTypes['Path'];
+							count+=1;
+						}
+					}
+					else if (CurrentCol<DistractionPoint.Column){
+						var NumTiles=Math.round(Math.random() * (Max - Min) + Min);
+						count=0;
+						while (count<NumTiles){
+							CurrentCol+=1;
+							GameBoard[CurrentRow][CurrentCol]['Type']=BlockTypes['Path'];
+							count+=1;
+						}
+					}
+				}
+			}
+		}
+		else{
+			var RandVHC=Math.round(Math.random())+1;
+			if (RandVHC==1){
+				if (CurrentRow>EndRow){
+					CurrentRow-=1;
+				}
+				else if (CurrentRow<EndRow){
+					CurrentRow+=1;
+				}
+				GameBoard[CurrentRow][CurrentCol]['Type']=BlockTypes['Path'];
+			}
+			if (RandVHC==2){
+				if (CurrentCol>EndCol){
+					CurrentCol-=1;
+				}
+				else if (CurrentCol<EndCol){
+					CurrentCol+=1;
+				}
+				GameBoard[CurrentRow][CurrentCol]['Type']=BlockTypes['Path'];
+			}
+		}
+	}
+}
+
+function RandRange(Num){
+	var Random=Math.round(Math.pow(((Math.random()-.5)*2),3)*Num)
+	return Random
+}
+
+function RecursiveTreeGeneration(ParentRow,ParentColumn,ForestSize,Depth,TreeType){
+	var NewTreeType;
+	var RandTreeNum=Math.random();
+	if ((GameBoard[ParentRow][ParentColumn]['Type']['ID'] == 'Tree1') || (GameBoard[ParentRow][ParentColumn]['Type']['ID'] == 'Tree2' )){
+		return; // Already a tree, nothing to do here
+	}
+	
+	if (RandTreeNum>=.2){ //80% chance the child will be the SAME tree type as its parent.
+		if (TreeType==1){
+			GameBoard[ParentRow][ParentColumn]['Type']=BlockTypes['Tree1'];
+			NewTreeType=1;
+		}
+		if (TreeType==2){
+			GameBoard[ParentRow][ParentColumn]['Type']=BlockTypes['Tree2'];
+			NewTreeType=2;
+		}
+	}
+	
+	if (RandTreeNum<.2){ //20% chance the child will be a DIFFERENT tree type than its parent. --NOTE: if more tree are added this needs updating!!!
+		if (TreeType==1){
+			GameBoard[ParentRow][ParentColumn]['Type']=BlockTypes['Tree2'];
+			NewTreeType=2;
+		}
+		if (TreeType==2){
+			GameBoard[ParentRow][ParentColumn]['Type']=BlockTypes['Tree1'];
+			NewTreeType=1;
+		}
+	}
+	
+	if (Depth>=ForestSize){
+		return;
+	}
+	for (var count=0;count<Math.floor(Math.random()*8);count+=1){ //Determines whether another child is born. The 8 determines the maximum number of children from each parent, though the probability of another child reduces after each birth.
+		var ChildRow=ParentRow+RandRange(5);
+		var ChildColumn=ParentColumn+RandRange(5);
+		if ((0<=ChildRow) && (ChildRow<=TotalRows-1) && (0<=ChildColumn) && (ChildColumn<=TotalColumns-1)){
+			RecursiveTreeGeneration(ChildRow,ChildColumn,ForestSize,Depth+1,NewTreeType);
+		}
+	}
+}
+
+function DrawView(){
+	var R = 1;
+	var C = 1;
+	for (R=1;R<=VRows;R+=1){
+		var Element = document.createElement('tr');
+		Table.appendChild(Element);
+		var VRowArray=[];
+		
+		for (C=1;C<=VColumns;C+=1){
+			var Element2 = document.createElement('td');
+			Element2.className="Grass"
+			Element.appendChild(Element2);
+			Element2.innerHTML = '&nbsp;';
+			VRowArray[C-1]={'TD':Element2};
+		}
+		ViewBoard[R-1]=VRowArray;
+	}
+}
+
+function UpdateView(){
+	for (var R=0;R<ViewBoard.length;R+=1){
+		for (var C=0;C<ViewBoard[R].length;C+=1){
+			var Loc=GameBoard[R+ViewPos.ViewRow][C+ViewPos.ViewCol];
+			ViewBoard[R][C]['TD'].innerHTML = '&nbsp;';
+			if (Loc['Type']['ID']=='Tree1'){
+				var Tree1 = document.createElement('div');
+				Tree1.className='Tree1';
+				ViewBoard[R][C]['TD'].innerHTML = '';
+				ViewBoard[R][C]['TD'].appendChild(Tree1);
+				ViewBoard[R][C]['TD'].className='Grass';
+			}
+			if (Loc['Type']['ID']=='Tree2'){
+				var Tree2 = document.createElement('div');
+				Tree2.className='Tree2';
+				ViewBoard[R][C]['TD'].innerHTML = '';
+				ViewBoard[R][C]['TD'].appendChild(Tree2);
+				ViewBoard[R][C]['TD'].className='Grass';
+			}
+			else if (Loc['Type']['ID']=='Path'){
+				ViewBoard[R][C]['TD'].className='Path';
+			}
+			else{
+				ViewBoard[R][C]['TD'].className='Grass';
+			}
+		}
+	}	
+}
+
+function GetVCharPos(){
+	var VCharPos = {Row:CharPos.CharRow-ViewPos.ViewRow,Column:CharPos.CharCol-ViewPos.ViewCol};
+	return VCharPos
+}
+
+function SpawnCharacter(){
+	Character = document.createElement('img');
+	Character.src='images/imadethesetoo/Player.png';
+	Character.className="Character";
+	Table.appendChild(Character);
+	Character.style.left=(23+(90*GetVCharPos().Column))+'px';
+	Character.style.top=(23+(90*GetVCharPos().Row))+'px';
+}
+
+function Move(Event){
+	switch(Event.which){
+		case Wkey:{
+			if ((CharPos.CharRow!=0) && (GameBoard[CharPos.CharRow-1][CharPos.CharCol]['Type']['Walkable']==true)){
+				CharPos.CharRow-=1;
+				if ((GetVCharPos().Row-3==0) && (ViewPos.ViewRow!=0)){
+					ViewPos.ViewRow-=1
+					UpdateView()
+				}
+				else{
+					Character.style.top=(23+(90*GetVCharPos().Row))+'px';
+				}
+			}
+			break;
+		}
+		case Skey:{
+			if ((CharPos.CharRow!=TotalRows-1) && (GameBoard[CharPos.CharRow+1][CharPos.CharCol]['Type']['Walkable']==true)){
+				CharPos.CharRow+=1;
+				if ((GetVCharPos().Row==VRows-4) && (ViewPos.ViewRow!=TotalRows-VRows)){
+					ViewPos.ViewRow+=1;
+					UpdateView();
+				}
+				else{
+					Character.style.top=(23+(90*GetVCharPos().Row))+'px';
+				}
+			}
+			break;
+		}
+		case Akey:{
+			if ((CharPos.CharCol!=0) && (GameBoard[CharPos.CharRow][CharPos.CharCol-1]['Type']['Walkable']==true)){
+				CharPos.CharCol-=1;
+				if ((GetVCharPos().Column-3==0) && (ViewPos.ViewCol!=0)){
+					ViewPos.ViewCol-=1;
+					UpdateView();
+				}
+				else{
+					Character.style.left=(23+(90*GetVCharPos().Column))+'px';
+				}
+			}
+			break;
+		}
+		case Dkey:{
+			if ((CharPos.CharCol!=TotalColumns-1) && (GameBoard[CharPos.CharRow][CharPos.CharCol+1]['Type']['Walkable']==true)){
+				CharPos.CharCol+=1;
+				if ((GetVCharPos().Column==VColumns-4) && (ViewPos.ViewCol!=TotalColumns-VColumns)){
+					ViewPos.ViewCol+=1;
+					UpdateView();
+				}
+				else{
+					Character.style.left=(23+(90*GetVCharPos().Column))+'px';
+				}
+			}
+			break;
+		}
+	}
+}
+
+function Main(){
+	MapBoard();
+	DrawView();
+	SpawnCharacter();
+	UpdateView();
+	$(document).keypress(Move);
+}
+$(document).ready(Main);
+</script>
+<title>
+?????
+</title>
+</head>
+<body>
+<table id="honey" cellpadding='0' cellspacing="0">
+</table>
+    <a href="Home.html">Home Page</a>
+</body>
+</html>
