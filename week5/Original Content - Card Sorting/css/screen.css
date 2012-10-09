@@ -1,0 +1,42 @@
+﻿h1 { 
+    font-size: 75px;
+    font-family: Nyala; 
+    color: darkslateblue;
+    border-bottom: 5px solid #261609;
+    margin: 0;
+    text-shadow: 1px 1px 10px #000;
+    text-align: center;
+    margin: 0px 5px 25px 5px;
+}
+
+body {
+    background: #b6ff00;
+    border-top: 5px solid black;
+    border-bottom: 5px solid black;
+    border-left: 5px solid black;
+    border-right: 5px solid black;
+    font-family: fantasy, sans-serif;
+    color: black;
+    text-align: center;
+    width: 750px;
+    margin: 0 auto;
+}
+
+h2 {
+    margin: 40px 0px 0px 0px;
+    font-size: 50px;
+    font-family: Andalus;
+    color: white;
+    text-align: center;
+    border-top: 3px double black;
+    border-bottom: 3px double black;
+    text-shadow: 1px 1px 10px #000;
+}
+
+h3 {
+    font-size: xx-large;
+    font-family: Andalus;
+    color: #4800ff;
+    text-align: center;
+    margin: 20px 0px 0px 0px;
+}

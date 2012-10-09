@@ -1,0 +1,27 @@
+﻿h1 { 
+    font-size: 75px;
+    font-family: Nyala; 
+    color: darkslateblue;
+    border-bottom: 5px dashed #fff;
+    margin: 0;
+    text-shadow: 1px 1px 10px #000;
+    text-align: center;
+    margin: 0px 5px 25px 5px;
+}
+
+body {
+    background: #eacca3;
+    border-top: 5px solid #1f170d;
+    font-family: fantasy, sans-serif;
+    color: black;
+    text-align: center;
+    width: 1000px;
+    margin: 0 auto;
+}
+
+h2 {
+    font-size: xx-large;
+    font-family: Andalus;
+    color: #430046;
+    text-align: center;
+}
