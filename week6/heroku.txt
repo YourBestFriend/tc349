@@ -1,0 +1,32 @@
+   Heroku.com offers users an aesthetically pleasing design that works well 
+to simplify the large amount of content contained on the site. Sadly, the 
+home page is probably my least favorite on the site. It is comprised 
+entirely of different shades of the same color and sports little more than 
+a bland heading and some uninteresting graphics. 
+
+   Thankfully, upon navigating past the homepage, you'll find beautifully 
+designed charts and tables such as those on the “How it Works” and “Pricing” 
+tabs. Additional colors are also introduced in side pages and make up a 
+rather appealing color-scheme. I especially enjoy the subtle color shift on 
+the “Add-ons” tab. This serves to keep things interesting and make each page 
+feel unique. In fact, I think it would be an improvement to do subtle color 
+shifts like this across all the primary content pages. This could even be 
+used to sort different sections of the website.
+
+   The primary concern for a website, however, is the user-friendliness. 
+This is where heroku.com shines. All points of interaction are clearly 
+labeled and adequately distinguished from the background upon mousing over. 
+The site feels interactive and easily navigable. I also love their logo!
+
+
+
+
+
+MY LAYOUT
+
+I choose to use the double layout as I felt it best fit my current content.
+I don't have alot of images or small articles to sort into a "gallery" style,
+and didn't find the "single" style to be much different from the website
+layout that I originally had. (The single style also wasn't very interesting
+to implement.) Maybe tommorrow night I'll play around with my site a little
+more for next week. I would like to add in a background from subtlepatterns.
