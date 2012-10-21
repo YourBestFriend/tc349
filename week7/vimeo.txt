@@ -1,0 +1,17 @@
+   Vimeo has chosen to go with an inviting cartoon-style aesthetic 
+which does serve to visually set it apart from its competition. I 
+appreciate that vimeo actually picked a style instead of making a 
+more simplistic layout that wouldn't alienate any possible audience, 
+like youtube or facebook. Not everyone will enjoy this style but 
+it's nice to see a website actually reach in some defined direction. 
+
+   Layout-wise everything seems suitably clean and user-friendly. 
+The page does stretch down quite a ways but the most important 
+things are situated mostly within one screen height for clear 
+presentation to users (though the top header section is a little 
+over-large, possibly just to display their graphic art. If this is 
+the case, I think a better setup needs to be explored). Still, I 
+can't help but wonder if it wouldn't be an improvement just to move 
+the lower content sections onto new pages and link to them via tabs 
+along the top or sides of the homepage. They really have very little 
+to do with the primary content on the page anyways.
