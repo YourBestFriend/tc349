@@ -32,9 +32,8 @@ hgroup {
 }
 
 .container {
-    width: 950px;
+    width: 975px;
     margin: 0 auto;
-    float: left;
 }
 
 #introduction {
@@ -42,10 +41,12 @@ hgroup {
     background: white url(images/ricepaper2.png);/*Background Pattern from SubtlePatterns.com*/
     border-top: 10px solid #222;
     border-bottom: 10px solid #222;
+    float: left;
 }
 
 article {
     width: 650px;
+    float: left;
 }
 
 p {
@@ -55,11 +56,19 @@ p {
 
 h4 {
     border-bottom: 3px dashed #222;
+    margin-top: 40px;
+    margin-right: 10px;
+    margin-bottom: 25px;
+    margin-left: 10px;
 }
 
 aside {
     width: 250px;
     float: left;
+    padding-right: 10px;
+    padding-left: 20px;
+    border-left: 3px dashed #222;
+    height: 531px;
 }
 
 h6 {
