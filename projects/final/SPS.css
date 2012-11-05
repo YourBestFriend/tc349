@@ -1,5 +1,5 @@
 ﻿body {
-    background: url(images/wood_pattern.png);/*Background Pattern from SubtlePatterns.com*/
+    background: url(images/diamond_upholstery.png);/*Background Pattern from SubtlePatterns.com*/
     margin: 0;
     font-family: "Helvetica", sans-serif;
     line-height: 1.4em;
@@ -38,9 +38,9 @@ hgroup {
 
 #introduction {
     padding: 15px;
-    background: white url(images/ricepaper2.png);/*Background Pattern from SubtlePatterns.com*/
-    border-top: 10px solid #222;
-    border-bottom: 10px solid #222;
+    background: white;
+    border-top: 10px solid #313b40;
+    border-bottom: 10px solid #f00;
     float: left;
 }
 
@@ -55,7 +55,7 @@ p {
 }
 
 h4 {
-    border-bottom: 3px dashed #222;
+    border-bottom: 3px dashed #606d90;
     margin-top: 40px;
     margin-right: 10px;
     margin-bottom: 25px;
@@ -67,7 +67,7 @@ aside {
     float: left;
     padding-right: 10px;
     padding-left: 20px;
-    border-left: 3px dashed #222;
+    border-left: 3px dashed #424d63;
     height: 531px;
 }
 
