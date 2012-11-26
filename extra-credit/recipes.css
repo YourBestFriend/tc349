@@ -1,0 +1,85 @@
+﻿body {
+    background: url(images/pattern_152.gif);/*Background Pattern from squidfinger.com*/
+    margin: 0 0 0 0;
+    font-family: "Helvetica", sans-serif;
+    line-height: 1.4em;
+}
+
+h1, h2, h3 {
+    margin: 0;
+}
+
+img {
+    width: 400px;
+    position: static;
+}
+
+h1 {
+    text-indent: -9000px;
+}
+
+h2 {
+    margin-top: 15px;
+    margin-left: 15px;
+}
+
+h3 {
+    margin-left: 15px;
+    margin-bottom: 5px;
+    font-weight: normal;
+}
+
+hgroup {
+    margin: 0 0 40px 0;
+}
+
+.container {
+    width: 975px;
+    margin: 0 auto;
+}
+
+#introduction {
+    background: white;
+    border-top: 10px solid #313b40;
+    border-bottom: 10px solid #000;
+    float: left;
+}
+
+article {
+    width: 650px;
+    float: left;
+}
+
+p {
+    margin-left: 20px;
+    margin-right: 40px;
+}
+
+h4 {
+    border-bottom: 3px solid #000;
+    margin: 0;
+}
+
+aside {
+    width: 250px;
+    float: left;
+    padding-right: 0px;
+    padding-left: 20px;
+    padding-bottom: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    border-left: 3px solid #000;
+    height: 675px;
+    background: url(images/potatoes.jpg);
+}
+
+h6 {
+    font-size: large;
+    margin-bottom: 5px;
+    font-weight: bold;
+    text-align: center;
+}
+
+h5 {
+    text-align: center;
+}
