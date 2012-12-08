@@ -10,7 +10,6 @@ h1, h2, h3 {
 }
 
 img {
-    width: 500px;
     position: static;
 }
 
@@ -58,7 +57,12 @@ p {
 }
 
 p2 {
-    margin-left: 75px;
+    margin-left: 130px;
+    float: inherit;
+}
+
+p3 {
+    margin-left: 128px;
     margin-right: 0px;
 }
 
@@ -107,7 +111,17 @@ aside3 {
     padding-right: 15px;
     padding-left: 15px;
     border-left: 3px ridge #424d63;
-    height: 2800px;
+    border-bottom: 3px ridge #424d63;
+    height: 300px;
+}
+
+aside4 {
+    width: 250px;
+    float: left;
+    padding-right: 15px;
+    padding-left: 15px;
+    border-left: 3px ridge #424d63;
+    height: 500px;
 }
 
 h6 {
